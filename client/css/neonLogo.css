@@ -1,0 +1,39 @@
+
+#div-logo{
+    background-color: #411E8F; 
+    height: 100px; 
+    width: 100px;
+    border-radius: 10%; 
+    margin: 60px auto;
+    rotate: 45deg;
+    color: white;
+    padding: 5px;
+    
+    
+    
+}
+
+#logo-image{
+    width: 85%;
+    display: block;
+    rotate: -45deg;
+    
+}
+
+
+#text-orbit{
+   rotate: -90deg;
+   display: inline-block;
+   position: absolute;
+   left:55px; 
+   bottom: 50px;
+
+}
+
+#text-neon{
+    position: absolute;
+    display: inline-block;
+    bottom: 3px;
+}
+
+

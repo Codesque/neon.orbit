@@ -1,0 +1,140 @@
+*{
+    font-family:'Bruno Ace SC', cursive;
+    padding: 0px;
+    margin: 0px;
+
+}
+
+body{
+    background-color: #212121; 
+}
+
+
+#body-main{
+    text-align: center;
+
+}
+
+#space-bg{
+
+    display: inline-block;
+    background-image: url('../client/img/space_background.png'); 
+    height:1920px;
+    width:1440px;
+    background-size: 1440px 1920px ;
+
+}
+
+#game-frame{
+    background-color: #2A2438;
+    position: absolute;
+    top: 130%; 
+    left: 50%; 
+    transform: translate(-50% , -50%);
+    width: 1000px;
+    height: 1080px;
+    border-radius: 10%;
+    
+}
+
+#gameOptions{
+    background-color: #5C5470;
+    width:800px; 
+    height:200px;
+    display: inline-block;
+    margin: 70px 0px 0px;
+    border-radius: 10%;
+}
+
+.navButton{
+    background-color: #5C5470;
+    background-image : url('../client/img/button/navButton.png');
+    color: aliceblue; 
+    
+    
+    border: none;
+    background-size: cover;
+    width: 197px;
+    height: 64px;
+    font-size: 1.2rem;
+}
+
+.navButton:hover{
+    background-image : url('../client/img/button/navButton-selected.png');
+    background-size: cover;
+
+
+}
+
+.navButton:active{
+    background-image : url('../client/img/button/navButton-active.png');
+    color:#ED0CEF;
+    background-size: cover;
+    
+}
+
+#WorldButton{
+    position: absolute;
+    background-image: url('../client/img/button/WorldButton.png');
+    top: 18%;
+    right:12%;
+    transform: translate(-50% , -50%);
+    font-size: 2rem;
+
+
+    width: 384px;
+    height:128px;
+    
+}
+
+#WorldButton:hover{
+    background-image : url('../client/img/button/WorldButton-selected.png');
+    background-size: cover;
+
+}
+
+#WorldButton:active{
+    background-image : url('../client/img/button/WorldButton-active.png');
+    background-size: cover;
+    color: #14FFEC;
+}
+
+#HangarButton{
+    position: absolute; 
+    transform: translate(-50% , -50%);
+    left: 20%; 
+    top: 15%;
+
+}
+#ShopButton{
+    position: absolute; 
+    transform: translate(-50% , -50%);
+    top: 15%; 
+    left: 79%;
+
+}
+
+#div-gameCanvas{
+    margin: 10px auto;
+    background-color: #5C5470;
+    width: 960px;
+    height: 544px;
+    
+
+}
+
+#gameCanvas{
+    position: absolute;
+    top: 50.8%;
+    transform: translate(-50% , -50%);
+    
+
+}
+
+.game-ships{
+    display: none;
+}
+
+
+
+
