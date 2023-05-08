@@ -82,8 +82,19 @@
         </div>
 
     </section> 
+    <img src="../client/img/gameplay_background.png" id="bg0" class="gameplay-background">
     <img src="../client/img/new1.png" id="ship0" class="game-ships">
-    <script src="../client/script.js" type="module"></script>
+    <script> 
+        const assetManager = () => {
+            window.assets = {
+                ship0: document.getElementById('ship0'),
+                bg0: document.getElementById('bg0'),
+            };
+        }
+    
+    
+    </script>
+    <script onload="assetManager()" src="../client/script.js" type="module"></script>
 
     <section id="sub">
 

@@ -127,11 +127,16 @@ body{
     position: absolute;
     top: 50.8%;
     transform: translate(-50% , -50%);
+    background-color: #000000;
     
 
 }
 
 .game-ships{
+    display: none;
+}
+
+.gameplay-background{
     display: none;
 }
 

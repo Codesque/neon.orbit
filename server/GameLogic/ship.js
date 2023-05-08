@@ -4,13 +4,13 @@ class Ship extends GameObjects{
 
     
     constructor() { 
-        super(250 , 250); 
+        super(480 , 235); 
         this.w = 128; 
         this.h = 128; 
         this.spriteX = this.x + this.w / 2; 
         this.spriteY = this.y + this.h / 2;
 
-        this.speed = 1;
+        this.speed = 10;
         this.imageID = 'ship0';
 
 
