@@ -18,7 +18,7 @@ body{
 #space-bg{
 
     display: inline-block;
-    background-image: url('../client/img/space_background.png'); 
+    background-image: url('../client/img/new3.png'); 
     height:1920px;
     width:1440px;
     background-size: 1440px 1920px ;
@@ -28,9 +28,9 @@ body{
 #game-frame{
     background-color: #2A2438;
     position: absolute;
-    top: 130%; 
-    left: 50%; 
-    transform: translate(-50% , -50%);
+    top: 50%; 
+    left:16.0%;
+
     width: 1000px;
     height: 1080px;
     border-radius: 10%;
@@ -139,6 +139,96 @@ body{
 .gameplay-background{
     display: none;
 }
+
+#registration-div{
+    width: 960px; 
+    height:544px;
+    background-image: url('../client/img/registration_wallpaper.png');
+    background-size: cover;
+}
+
+#registration-div-signIn {
+    background-color: rgba(255, 255, 255, 0);
+
+}
+
+#registration-div-signUp{
+    background-image: url('../client/img/button/WorldButton.png');
+    background-size: cover;
+    border: 0;
+    background-color: rgba(255, 255, 255, 0);
+    width: 197px;
+    height: 64px;
+    font-size: 1.2rem;
+    color:aliceblue;
+}
+
+#registration-div-signUp:hover{
+    background-image : url('../client/img/button/WorldButton-selected.png');
+    background-size: cover;
+}
+
+#registration-div-signUp:active{
+    background-image : url('../client/img/button/WorldButton-active.png');
+    background-size: cover;
+    color: #14FFEC;
+
+}
+
+#registration-div-inputs{
+    position: relative; 
+    top:10%; 
+    font-size: 2rem;
+    color: aliceblue;
+}
+
+#registration-div-buttons{
+    position: relative;
+    top:20%;
+}
+
+.input-div-ui{
+    width: 384px; 
+    height: 128px;
+    background-image: url('../client/img/input-canvas.png');
+    background-size: cover;
+    background-color: rgba(255, 255, 255, 0);
+    border : 0;
+    display: inline-block;
+}
+
+.registration-input{
+    position: relative; 
+    top: 17%; 
+    width : 270px; 
+    height: 50px;
+    background-color: rgba(255, 255, 255, 0);
+    border : 0 solid;
+    outline:none;
+    font-size: 2.1rem;
+    color:aliceblue;
+
+
+}
+
+.registration-input:focus{
+    border: 0 solid;
+    outline: none;
+}
+
+
+#ship0{
+    display: none;
+}
+
+
+
+
+
+
+
+
+
 
 
 
