@@ -175,6 +175,7 @@ class Player extends Ship{
             if (this.d_T > this.attackTimer) {
                 let offsetX = this.absoluteOffset.x; 
                 let offsetY = this.absoluteOffset.y;
+                
                 new Laser(origin_x, origin_y, target_x, target_y, {x : offsetX , y : offsetY}, (this.angle));
                 this.d_T = 0;
             }
