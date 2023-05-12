@@ -11,13 +11,26 @@ class Ship extends GameObjects{
         this.spriteY = this.y + this.h / 2;
 
         this.speed = 10;
+        this.rotationSpeed = 0.1;
+        this.coll_radius = 20;
+        this.attack_radius = 1000;
         this.imageID = 'ship0';
+        this.interactionID = Math.random();
+        this.interactionType = "Bot"; // default
 
 
         this.health = 1000; 
+        this.present_health = 500; 
+        this.shield = 1000;
+        this.present_shield = 500;
         this.isAttacking = false; 
         this.isChanneled = false; 
         this.isDestroyed = false; 
+        this.channeledTarget = null;
+
+        this.isAttackable = true;
+        this.isCollectable = false;
+        this.isTargetable = true;
 
     }
 

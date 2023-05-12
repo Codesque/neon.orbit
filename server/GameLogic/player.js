@@ -6,25 +6,37 @@ class Player extends Ship{
 
     static list = {};
 
-    static onConnect(socket) { 
-        const disPlayer = new Player(socket.id);
-        disPlayer.listenEvents(socket);
+    static onConnect(socket , interactionID) { 
+        Player.list[socket.id] = new Player(socket.id);
+        Player.list[socket.id].interactionID = interactionID;
+        Player.list[socket.id].interactionType = "Player";
+        Player.list[socket.id].listenEvents(socket);
         
-        Player.list[socket.id] = this;
+        
     } 
 
     static disconnectPlayer(socket) {
 
-        if (Player.list) {
-            const disPlayer = Player.list[socket.id];
-            socket.emit('clearPlayer' , {absoluteOffset:disPlayer.absoluteOffset , w:disPlayer.w , h:disPlayer.h})
+        try {
+            
+            if (Player.list) {
+                const disPlayer = Player.list[socket.id];
+                if( Player.list[socket.id] && Player.list[socket.id].hasOwnProperty('isTrash') )
+                    Player.list[socket.id].isTrash = true; 
     
-            if( Player.list[socket.id].hasOwnProperty('isTrash') )
-                Player.list[socket.id].isTrash = true; 
-
+            }
+        } catch (err) {
+            console.log(err)
         }
          
         
+    }
+
+    static makeThePlayerDisconnectAgain(socket) {
+        if (Player.list[socket.id]) {
+            Player.list[socket.id].isTrash = true; 
+            delete Player.list[socket.id];    
+        }
     }
  
     
@@ -42,6 +54,7 @@ class Player extends Ship{
             x: 0, 
             y: 0
         }
+        this.username = '404';
         this.centerCamera = undefined;
         this.disconnect = undefined;
         
@@ -91,6 +104,16 @@ class Player extends Ship{
 
 
         })
+
+        socket.on('OtherPlayerClicked', (data) => {
+            console.log('I am working' , Math.random() );
+            for (let key in Player.list) {
+                if (Player.list[key] != this && Player.list[key].interactionID == data.toWhom) {
+                    this.channeledTarget = Player.list[key];
+                    this.isChanneled = true;
+                }
+            }
+        })
         
     } 
 
@@ -126,12 +149,40 @@ class Player extends Ship{
     }
 
 
+    channelTarget() {
+
+        let tolerance = 5;
+        
+        if (this.isChanneled && this.channeledTarget) {
+            
+            const dx = (this.x + this.absoluteOffset.x) - (this.channeledTarget.x + this.channeledTarget.absoluteOffset.x) || 0;
+            const dy = (this.y + this.absoluteOffset.y) - (this.channeledTarget.y + this.channeledTarget.absoluteOffset.y) || 0;
+
+            let distance = Math.hypot(dy, dx);
+            
+            //setTimeout(()=>{console.log('distance:', distance, 'r:', this.attack_radius)} , 10000);
+            if (distance > this.attack_radius) {
+                this.isChanneled = false; 
+                this.channeledTarget = null;
+            } else {
+                const angle = Math.atan2(dy, dx) * 180 / Math.PI || 0;     
+                this.angle = (180 + angle);
+            }
+            
+            
+
+
+
+        }
+
+    }
 
 
     update() {
         super.update();
         if (this.centerCamera) this.centerCamera();
         this.go2Destination();
+        this.channelTarget();
     }
 
 

@@ -24,13 +24,20 @@ const mongooseSchema = mongoose.Schema({
 
     isOnline: {
         type: Boolean 
+    }, 
+
+    interactionID: {
+        type: String, 
+        unique: [true, "InteractionID başkası tarafından alınmıştır. Lütfen geliştiriciyle iletişime geçiniz"]
     }
+
+
 
 
 },
 // timeStamps 
 {
-    timestamp: false ,     
+    timestamp: true ,     
 }
 
 

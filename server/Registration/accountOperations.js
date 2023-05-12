@@ -23,10 +23,12 @@ const registerUser = asyncHandler(async (data, socket) => {
         }
     
         const hashedPassword = await bcrypt.hash(password, 10);
+        const hashedUsername = await bcrypt.hash(username, 10);
         const newUser = Accounts.create({
             username,
             password: hashedPassword, 
-            isOnline : false 
+            isOnline: false,
+            interactionID : hashedUsername
         });
     
         console.log(`New User ${newUser.username} has been created successfully`);
@@ -62,16 +64,14 @@ const loginUser = asyncHandler(async (data, socket) => {
         }
     
         const user = await Accounts.findOne({ username });
-        if (user && bcrypt.compare(password, user.password)) {
-            socket.id = user.id;   
-            console.log(`user id is ${user.id}`);
-            if (!user.isOnline) { 
-                await Accounts.findByIdAndUpdate(user.id, { isOnline: true });
-                Player.onConnect(socket); 
-                socket.emit('sign-in-response', { success: true })
-                return true;  
-            }
-            else socket.emit('sign-in-response' ,{success : false}) 
+        if (user && bcrypt.compare(password, user.password)) {  
+            console.log(`user id is ${socket.id}`);
+            //await Accounts.findByIdAndUpdate(user.id, { isOnline: true });
+            
+            Player.onConnect(socket , user.interactionID); 
+            socket.emit('sign-in-response', { success: true })
+             
+            
             
         }
         else {

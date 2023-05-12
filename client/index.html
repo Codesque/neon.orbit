@@ -104,11 +104,20 @@
     </section> 
     <img src="../client/img/gameplay_background.png" id="bg0" class="gameplay-background">
     <img src="../client/img/new1.png" id="ship0" class="game-ships">
+    <img src="../client/img/health-bar-monochrome.png" id="health-monochrome">
+    <img src="../client/img/health-bar-colored.png" id="health-colored">
+    <img src="../client/img/shield-monochrome.png" id="shield-monochrome">
+    <img src="../client/img/shild-colored.png" id="shield-colored">
+
     <script> 
         const assetManager = () => {
             window.assets = {
                 ship0: document.getElementById('ship0'),
                 bg0: document.getElementById('bg0'),
+                health_mono : document.getElementById('health-monochrome') , 
+                present_health : document.getElementById('health-colored') , 
+                shield_mono : document.getElementById('shield-monochrome'), 
+                present_shield : document.getElementById('shield-colored')
             };
         }
     

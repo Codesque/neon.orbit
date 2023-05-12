@@ -11,6 +11,9 @@ class GameObjects{
         this.speed = 0; 
         this.vx = 0; 
         this.vy = 0;
+        this.id = Math.random();
+
+        this.absoluteOffset = 0;
         
 
         // Oyun objesini cizmek icin gerekli propertyler
@@ -25,7 +28,9 @@ class GameObjects{
         */
 
 
-        this.clickable = true; 
+        this.isClickable = true; 
+        this.isAttackable = false;
+        this.isCollectable = false;
         this.selected = false; 
         this.isMoving = false;
         this.isTrash = false;

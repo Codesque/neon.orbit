@@ -18,6 +18,8 @@ const { GameObjects } = require('./server/GameLogic/gameObjects');
 
 const connectDb = require('./server/Config/dbConnection.js');
 const { loginUser , registerUser , disconnectUser} = require('./server/Registration/accountOperations');
+const { Ship } = require('./server/GameLogic/ship');
+const { gameObjectPackage , shipPackage} = require('./server/GameLogic/packageManager.js');
 connectDb();//Veri tabanina baglanmak icin /server/Config/dbConnection.js de  bulunan fonksiyon kullanilir.
 
 
@@ -63,10 +65,10 @@ io.sockets.on('connection', (socket) => {
     })
 
 
-    socket.on('disconnect', () => { 
-        Player.disconnectPlayer(socket); 
-        disconnectUser(socket);
+    socket.on('disconnect', () => {  
+        Player.makeThePlayerDisconnectAgain(socket);
         delete SOCKET_LIST[socket.id];
+        console.log(3);
     })
         
     
@@ -77,30 +79,31 @@ io.sockets.on('connection', (socket) => {
 })
 
 const responseCallback = () => {
-    const pack = []
-    const recognPack = []
+    const pack = {};
+    const shipPack = {}; 
+
+    
     GameObjects.gameObjectGroup.forEach((obj) => {
         obj.update();
-        if (!obj.isTrash) {
-            pack.push({
-                x: obj.x, 
-                y: obj.y,
-                w: obj.w,
-                h: obj.h,
-                angle: obj.angle,
-                imageID: obj.imageID, 
-                absoluteOffset: obj.absoluteOffset
-            })
-        } 
+
+        gameObjectPackage(obj, pack , obj.id); 
+        shipPackage(obj, shipPack, obj.id);
+
+
+
+
+
+
         
     })
 
-    let i = 0;
+    
     for (let key in SOCKET_LIST) {
         let socket = SOCKET_LIST[key]; 
-        socket.emit('update', { updatePack: pack, order: i });
-        i += 1;
+        socket.emit('update', { updatePack: pack });
+        socket.emit('shipUpdate', { updatePack: shipPack });
+        
     }
 } 
 
-setInterval(responseCallback, 10); 
+setInterval(responseCallback, 5); 
