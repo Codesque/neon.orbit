@@ -2,7 +2,13 @@
 class GameObjects{
 
     static gameObjectGroup = [];
-    #objID;
+
+    static clearTrash = () => {
+        for (let i = 0; i < GameObjects.gameObjectGroup.length; i++)
+            if (GameObjects.gameObjectGroup[i] && GameObjects.gameObjectGroup[i].isTrash ) delete GameObjects.gameObjectGroup[i];
+    }
+
+
 
     constructor(x0 = 0, y0 = 0) {
         this.x = x0; 
@@ -37,25 +43,14 @@ class GameObjects{
         
 
         GameObjects.gameObjectGroup.push(this);
-        this.#objID = GameObjects.gameObjectGroup.length - 1;
     }
 
- 
+
     
 
     update() {
         this.x += this.vx; 
         this.y += this.vy;
-        
-        // Neden + degil de - ?
-            // Cunku ekranin sol yukari kosesi 0,0'ken ekranin sag alt kosesi 960,474 
-            // Yani yukari gittikce y degeri azalmali 
-            // Asagi gittikce y degeri artmali
-            
-            // Bu sisteme gore oyuncunun y eksenindeki hizi 0'dan buyuk oldugunda yukari gidecek.
-            
-        
-            
 
         
     }

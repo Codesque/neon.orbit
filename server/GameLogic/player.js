@@ -1,5 +1,6 @@
 const { GameObjects } = require('./gameObjects.js');
-const {Ship}  = require('./ship.js'); 
+const { Ship } = require('./ship.js'); 
+const { Laser } = require('./laser.js');
 
 
 class Player extends Ship{
@@ -57,6 +58,8 @@ class Player extends Ship{
         this.username = '404';
         this.centerCamera = undefined;
         this.disconnect = undefined;
+
+        this.d_T = 0;
         
         
         
@@ -106,13 +109,18 @@ class Player extends Ship{
         })
 
         socket.on('OtherPlayerClicked', (data) => {
-            console.log('I am working' , Math.random() );
-            for (let key in Player.list) {
-                if (Player.list[key] != this && Player.list[key].interactionID == data.toWhom) {
-                    this.channeledTarget = Player.list[key];
-                    this.isChanneled = true;
+            console.log('I am working', Math.random());
+            
+                for (let key in Player.list) {
+                    if (Player.list[key] != this && Player.list[key].interactionID == data.toWhom) {
+                        this.channeledTarget = Player.list[key];
+                        this.isChanneled = true;
+                        if (data.command == "attack") this.isAttacking = true;
+                    }
                 }
-            }
+            
+
+
         })
         
     } 
@@ -148,8 +156,34 @@ class Player extends Ship{
 
     }
 
+    attack2Target() {
+        if (this.isAttacking && this.channeledTarget && this.channeledTarget.isAttackable) {
 
-    channelTarget() {
+            let origin_x = this.x;
+            let target_x =  this.channeledTarget.x + this.channeledTarget.absoluteOffset.x;
+
+            let origin_y = this.y;
+            let target_y =  this.channeledTarget.y + this.channeledTarget.absoluteOffset.y;
+            
+
+            const dx = (target_x) - (origin_x) || 0;
+            const dy = (target_y) - (origin_y) || 0;
+
+            let distance = Math.hypot(dy, dx);
+            let angle = Math.atan2(dy, dx) * 180 / Math.PI;
+
+            if (this.d_T > this.attackTimer) {
+                let offsetX = this.absoluteOffset.x; 
+                let offsetY = this.absoluteOffset.y;
+                new Laser(origin_x, origin_y, target_x, target_y, {x : offsetX , y : offsetY}, (this.angle));
+                this.d_T = 0;
+            }
+            else this.d_T += 5;
+        
+        }
+    }
+
+    channel2Target() {
 
         let tolerance = 5;
         
@@ -161,12 +195,12 @@ class Player extends Ship{
             let distance = Math.hypot(dy, dx);
             
             //setTimeout(()=>{console.log('distance:', distance, 'r:', this.attack_radius)} , 10000);
-            if (distance > this.attack_radius) {
+            if (distance > this.channeling_radius) {
                 this.isChanneled = false; 
                 this.channeledTarget = null;
             } else {
                 const angle = Math.atan2(dy, dx) * 180 / Math.PI || 0;     
-                this.angle = (180 + angle);
+                this.angle = (180 + angle);  
             }
             
             
@@ -182,7 +216,8 @@ class Player extends Ship{
         super.update();
         if (this.centerCamera) this.centerCamera();
         this.go2Destination();
-        this.channelTarget();
+        this.channel2Target();
+        this.attack2Target();
     }
 
 

@@ -216,7 +216,9 @@ body{
     outline: none;
 }
 
-
+#laser-pink{
+    display: none;
+}
 
 
 

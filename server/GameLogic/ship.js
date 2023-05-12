@@ -13,7 +13,9 @@ class Ship extends GameObjects{
         this.speed = 10;
         this.rotationSpeed = 0.1;
         this.coll_radius = 20;
-        this.attack_radius = 1000;
+        this.channeling_radius = 1000;
+        this.attack_radius = 600;
+
         this.imageID = 'ship0';
         this.interactionID = Math.random();
         this.interactionType = "Bot"; // default
@@ -23,6 +25,7 @@ class Ship extends GameObjects{
         this.present_health = 500; 
         this.shield = 1000;
         this.present_shield = 500;
+        this.attackTimer = 1000 * 1;
         this.isAttacking = false; 
         this.isChanneled = false; 
         this.isDestroyed = false; 

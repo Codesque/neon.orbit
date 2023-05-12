@@ -102,6 +102,7 @@ const responseCallback = () => {
         let socket = SOCKET_LIST[key]; 
         socket.emit('update', { updatePack: pack });
         socket.emit('shipUpdate', { updatePack: shipPack });
+        GameObjects.clearTrash();
         
     }
 } 

@@ -65,29 +65,40 @@ socket.on('connect', () => {
         
     }
 
+    const sendOtherPlayerClickedEvent = (e, clickNumber = 1, command = 'focus') => {
+        // 1 Tiklamada yapilacaklar
+        if (e.detail == clickNumber) {
+            let isThereAny = false;
+            if (otherShipObjects) {
+                    
+                for (const key in otherShipObjects) {
+                    let shipObj = otherShipObjects[key];
+                    let isColl = isCollision(shipObj, e);
+                    if (isColl) {
+                        isThereAny = true;
+                        socket.emit('OtherPlayerClicked', { who: USERID, toWhom: key, command: command });
+                    }
+    
+                }
+    
+            }
+    
+    
+            if (!isThereAny && e.offsetX < canvas.width && e.offsetY < canvas.height)
+                socket.emit("MapClicked", { x: e.offsetX, y: e.offsetY, c_width: canvas.width, c_height: canvas.height });
+
+
+
+        }
+    }
+
     const events = () => {
         
         window.addEventListener('mousedown', (e) => {
 
-            let isThereAny = false;
-            if (otherShipObjects) {
-                
-                for (const key in otherShipObjects) {
-                    let shipObj = otherShipObjects[key]; 
-                    let isColl = isCollision(shipObj , e);
-                    if (isColl) {
-                    isThereAny = true;
-                    socket.emit('OtherPlayerClicked', { who: USERID, toWhom: key });  
-                    }
-                        
+            sendOtherPlayerClickedEvent(e, 1, 'focus'); 
+            sendOtherPlayerClickedEvent(e, 2, 'attack');
 
-                }
-
-            } 
-
-
-            if(!isThereAny && e.offsetX < canvas.width && e.offsetY < canvas.height)
-                socket.emit("MapClicked", { x: e.offsetX, y: e.offsetY, c_width: canvas.width, c_height: canvas.height });
             
         })
 
