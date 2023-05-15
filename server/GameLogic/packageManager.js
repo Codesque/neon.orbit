@@ -4,12 +4,6 @@ const { Ship } = require("./ship")
 const gameObjectPackage = (obj , pack , id) => { 
     if (!obj.isTrash) {
 
-        attributes = {
-            isAttackable: obj.isClickable, 
-            isCollectable: obj.isAttackable, 
-            isClickable: obj.isClickable
-        }; 
-
         pack[id] = {
             x: obj.x,
             y: obj.y,
@@ -18,11 +12,10 @@ const gameObjectPackage = (obj , pack , id) => {
             angle: obj.angle,
             imageID: obj.imageID,
             absoluteOffset: obj.absoluteOffset,
-            attribute : attributes
 
         }
 
-    } else if (pack[id]) delete pack[id];    
+    } //else if (pack[id]) delete pack[id];    
 }
 
 const shipPackage = (obj, pack , id) => {
