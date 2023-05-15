@@ -62,11 +62,81 @@
                         <div id="div-gameCanvas">
 
                             
-                            <canvas id="gameCanvas">  
-                                <p>Hello World</p>
-                                
-                            </canvas>
+                            <div id="registration-div">
+                                <div id="registration-div-inputs">
+                                    
+                                    <p>Username:</p>
+                                    <div class="input-div-ui">
+                                    <input type="text" id="registration-input-username" class="registration-input"> 
+                                    </div>
+                                    
+                                    <br>
+                                    <p>Password:</p>
+                                    <div class="input-div-ui">
+                                    <input type="password" id="registration-input-password" class="registration-input"> 
+                                    </div>
+                                </div>
+
+                                <div id="registration-div-buttons">
+                                    <button class="navButton" id="registration-div-signIn">Giris Yap</button> 
+                                    <button class="WorldButton" id="registration-div-signUp">Kayit Ol</button> 
+
+                                </div>
+
+
+
+                            </div>
                             
+                            <canvas id="gameCanvas" style="display: none;"></canvas>
+                            <div id="gameOverScreen" style="width:960px;height:550px;display:none;">
+                                <div id="gameOver-div">
+                                    <script>const reloadThePage = ()=>{location.reload()}</script>
+                                    <h1>Game Over</h1>
+                                    <br><br>
+                                    <button onclick="reloadThePage()"  class="PurpleButton" id="game-over-button">Tekrar Oyna</button>
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+                            <div id="chat-section" style="display: none;"> 
+                                <div id="chat-text">Hello</div>
+                                <form id="chat-form"> 
+                                    <div id="chat-form-bg">
+                                    <input id="chat-input" type="text">
+                                    </div>
+                                </form>
+
+                            </div>
+
+                            
+                            
+
+                        </div>
+
+                        <div id="div-tool-section">
+
+                            <div id="toolbox-chat" class="toolbox">
+                                <script>
+                                
+                                    let state = false;
+                                    const chatSwitch= ()=> {
+                                        state = (!state); 
+    
+                                        const button = document.getElementById('chat-section'); 
+                                        if(state) button.style.display = "block"; 
+                                        else button.style.display = "none";
+                                        
+                                        
+                                    }
+    
+                                </script>
+                                <button onclick="chatSwitch()" class="PurpleButton" id="toolbox-chat-button">Sohbet</button>
+                            </div>
 
                         </div>
 
@@ -82,8 +152,34 @@
         </div>
 
     </section> 
+    <img src="../client/img/gameplay_background.png" id="bg0" class="gameplay-background">
     <img src="../client/img/new1.png" id="ship0" class="game-ships">
-    <script src="../client/script.js" type="module"></script>
+    <img src="../client/img/health-bar-monochrome.png" id="health-monochrome">
+    <img src="../client/img/health-bar-colored.png" id="health-colored">
+    <img src="../client/img/shield-monochrome.png" id="shield-monochrome">
+    <img src="../client/img/shild-colored.png" id="shield-colored">
+    <img src="../client/img/laser-pink-color.png" id="laser-pink">
+    <img src="../client/img/spaceOre.png" id="space-ore">
+
+    <script> 
+        const assetManager = () => {
+            window.assets = {
+                ship0: document.getElementById('ship0'),
+                bg0: document.getElementById('bg0'),
+                health_mono : document.getElementById('health-monochrome') , 
+                present_health : document.getElementById('health-colored') , 
+                shield_mono : document.getElementById('shield-monochrome'), 
+                present_shield : document.getElementById('shield-colored'),
+                laser_pink : document.getElementById('laser-pink'), 
+                space_ore : document.getElementById('space-ore'),
+
+
+            };
+        }
+    
+    
+    </script>
+    <script onload="assetManager()" src="../client/script.js" type="module"></script>
 
     <section id="sub">
 
