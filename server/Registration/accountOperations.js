@@ -51,9 +51,7 @@ const registerUser = asyncHandler(async (data, socket) => {
 
 })
 
-const disconnectUser = asyncHandler(async (socket) => {
-    await Accounts.findByIdAndUpdate(socket.id, { isOnline: false });
-})
+
 
 
 const loginUser = asyncHandler(async (data, socket) => {
@@ -88,7 +86,6 @@ const loginUser = asyncHandler(async (data, socket) => {
 module.exports = {
 
     loginUser, 
-    registerUser, 
-    disconnectUser
+    registerUser
 
 }

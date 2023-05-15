@@ -222,6 +222,92 @@ body{
 
 
 
+.PurpleButton{
+
+    width: 192px; 
+    height: 64px;
+    
+    background-image: url('../client/img/button/WorldButton.png'); 
+    background-size: cover;
+    background-color: transparent;
+    color:aliceblue;
+    border:none;
+
+}
+
+.PurpleButton:hover{
+
+    background-image: url('../client/img/button/WorldButton-selected.png'); 
+    background-size: cover;
+}
+
+.PurpleButton:active{
+    background-image: url('../client/img/button/WorldButton-active.png'); 
+    background-size: cover;
+    color:#14FFEC;
+}
+
+#toolbox-chat{
+    position: relative; 
+    right:35%;
+}
+
+#chat-section{
+    padding-left: 10px;
+    padding-top: 10px;
+    width: 360px;
+    height: 360px; 
+    border-radius: 12%;
+    position: absolute; 
+    top:42%;
+    color:aliceblue;
+
+    background-color: #323232;
+    background-size: cover;
+}
+
+#chat-text{
+    width: 300px; 
+    height:200px;
+    padding-top: 40px; 
+    padding-left: 40px;
+    background-color: #0D7377; 
+    border-radius: 10%;
+    text-align: left;
+    overflow-y: scroll;
+    
+}
+
+#chat-form-bg{
+    background-image: url('../client/img/input-canvas.png'); 
+    background-size: cover;
+    width:300px; 
+    height:100px;
+    
+}
+
+#chat-input{
+
+    position: relative; 
+    top: 20%;
+    width: 70%; 
+    height: 40px;
+
+}
+
+#gameOverScreen{
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.5);
+    top:26%;
+}
+
+#gameOver-div{
+    position: relative;
+    top:30%;
+    color: aliceblue;
+}
+
+
 
 
 

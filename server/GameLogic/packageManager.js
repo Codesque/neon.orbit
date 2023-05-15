@@ -1,3 +1,4 @@
+const { Collectable } = require("./collectableObjects");
 const { Ship } = require("./ship")
 
 const gameObjectPackage = (obj , pack , id) => { 
@@ -32,16 +33,33 @@ const shipPackage = (obj, pack , id) => {
             present_health : obj.present_health,
             shield: obj.shield, 
             present_shield: obj.present_shield,
-            x: obj.x - obj.w/2, 
-            y: obj.y - obj.h/2,
+            x: obj.x, 
+            y: obj.y,
             absoluteOffset: obj.absoluteOffset, 
             collusion_radius : obj.coll_radius,
             interaction: {
                 ID: obj.interactionID, 
                 type: obj.interactionType
-            }
+            },
+            w: obj.w, 
+            h: obj.h 
         }
         
+    }
+}
+
+const collectablePackage = (obj, pack, iad) => {
+    if (obj instanceof Collectable) {
+        
+        pack[iad] = {
+            x: obj.x, 
+            y: obj.y,
+            absoluteOffset: obj.absoluteOffset,
+            w: obj.w,
+            h: obj.h,
+            coll_r: obj.coll_r,
+        }
+
     }
 }
 
@@ -50,6 +68,7 @@ const shipPackage = (obj, pack , id) => {
 module.exports = {
 
     gameObjectPackage, 
-    shipPackage
+    shipPackage,
+    collectablePackage
 
 }

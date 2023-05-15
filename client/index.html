@@ -84,9 +84,59 @@
                                 </div>
 
 
+
                             </div>
-                            <canvas id="gameCanvas" style="display: none;"></canvas>
                             
+                            <canvas id="gameCanvas" style="display: none;"></canvas>
+                            <div id="gameOverScreen" style="width:960px;height:550px;display:none;">
+                                <div id="gameOver-div">
+                                    <script>const reloadThePage = ()=>{location.reload()}</script>
+                                    <h1>Game Over</h1>
+                                    <br><br>
+                                    <button onclick="reloadThePage()"  class="PurpleButton" id="game-over-button">Tekrar Oyna</button>
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+                            <div id="chat-section" style="display: none;"> 
+                                <div id="chat-text">Hello</div>
+                                <form id="chat-form"> 
+                                    <div id="chat-form-bg">
+                                    <input id="chat-input" type="text">
+                                    </div>
+                                </form>
+
+                            </div>
+
+                            
+                            
+
+                        </div>
+
+                        <div id="div-tool-section">
+
+                            <div id="toolbox-chat" class="toolbox">
+                                <script>
+                                
+                                    let state = false;
+                                    const chatSwitch= ()=> {
+                                        state = (!state); 
+    
+                                        const button = document.getElementById('chat-section'); 
+                                        if(state) button.style.display = "block"; 
+                                        else button.style.display = "none";
+                                        
+                                        
+                                    }
+    
+                                </script>
+                                <button onclick="chatSwitch()" class="PurpleButton" id="toolbox-chat-button">Sohbet</button>
+                            </div>
 
                         </div>
 
@@ -109,6 +159,7 @@
     <img src="../client/img/shield-monochrome.png" id="shield-monochrome">
     <img src="../client/img/shild-colored.png" id="shield-colored">
     <img src="../client/img/laser-pink-color.png" id="laser-pink">
+    <img src="../client/img/spaceOre.png" id="space-ore">
 
     <script> 
         const assetManager = () => {
@@ -120,6 +171,8 @@
                 shield_mono : document.getElementById('shield-monochrome'), 
                 present_shield : document.getElementById('shield-colored'),
                 laser_pink : document.getElementById('laser-pink'), 
+                space_ore : document.getElementById('space-ore'),
+
 
             };
         }

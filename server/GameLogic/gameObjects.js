@@ -26,6 +26,8 @@ class GameObjects{
         this.imageID = null;
         this.w = 128; 
         this.h = 128;
+        this.maxW = 128; 
+        this.maxH = 128;
         this.angle = 0;
         /*
         this.collR = null; 

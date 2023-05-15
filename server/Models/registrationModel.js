@@ -10,38 +10,47 @@ const mongoose = require('mongoose');
 
     
 const mongooseSchema = mongoose.Schema({
-
     username: {
         type: String,
         required: [true, "Lütfen kullanıcı adınızı giriniz"],
-        unique : [true , "Bu hesap adı başkası daha önce başkası tarafından alınmıştır. Lütfen yeniden deneyiniz."]
+        unique: true
     },
-
     password: {
-        type: String, 
-        required: [true, "Lütfen şifrenizi giriniz"]
+        type: String,
+        required: [true, "Lütfen şifrenizi giriniz."]
     },
-
-    isOnline: {
-        type: Boolean 
-    }, 
-
     interactionID: {
-        type: String, 
-        unique: [true, "InteractionID başkası tarafından alınmıştır. Lütfen geliştiriciyle iletişime geçiniz"]
+        type: String,
+        unique: true
+    },
+    currency: {
+        neonthereum: {
+            type: Number,
+            default: 0
+        }
+    },
+    hangar: {
+        weaponary: [{ item: { type: Number } }],
+        inventory: [{ item: { type: Number } }],
+        currentShip: { type: String },
+        ownedShips: [{
+            ownedShip: {
+                name: String,
+                attack_damage: Number,
+                attack_speed: Number,
+                channeling_radius: Number,
+                attack_radius: Number,
+                health: Number,
+                shield: Number,
+                regeneration_rate: Number
+            }
+        }]
     }
-
-
-
-
 },
-// timeStamps 
-{
-    timestamp: true ,     
-}
-
-
-)
+    {
+        timestamps: true
+    }
+);
 
 // olusturulan mongoose schemasindan bir model yaratip export ediyoruz.
 module.exports = mongoose.model('Accounts', mongooseSchema);
