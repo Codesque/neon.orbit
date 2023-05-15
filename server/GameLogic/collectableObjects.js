@@ -11,26 +11,14 @@ class Collectable extends GameObjects{
     }
 
     static hashFunc = async (data) => {
-        //console.log("data:",data)
         if (data) {
             const hash = await bcrypt.hash(`${data}`, 10);
             //console.log("hash:",hash);
             return hash;
         }
-        //else throw Error('undefined amount');
+       
     }
-    
-    /* 
-    static saveToDB = async (socket , interactionID)=> {
 
-        const user = await Accounts.findOne({ interactionID: Player.list[socket.id].interactionID });
-        if (user) {
-            user.currency.neonthereum += Collectable.list[interactionID].amountOf;
-            await user.save();
-        }
-        else console.log("Couldnt find the user with the interactionID", interactionID);
-    }
-    */
 
 
     constructor(amount) {
@@ -40,13 +28,13 @@ class Collectable extends GameObjects{
         this.isClickable = true; 
         this.isShrinking = false; 
         this.isRecyclableTrash = false;
-        this.rotation_speed = Math.random() * 10 - 5;
-        if (this.rotation_speed < 1 && this.rotation_speed > -1) this.rotation_speed = 3;
+        this.rotation_speed = Math.random() * 20 - 10;
+        if (this.rotation_speed < 1 && this.rotation_speed > -1) this.rotation_speed = 9;
         
          
         
         this.amountOf = amount;   
-        this.speed = 3;
+        this.speed = 7;
         this.coll_r = 20;
         this.absoluteOffset = {
             x: 0, 
@@ -55,7 +43,7 @@ class Collectable extends GameObjects{
 
         this.d_T = 0;
         this.miningTime = 600 * 1;
-        this.shrinkingSpeed = 0.05;
+        this.shrinkingSpeed = 0.15;
         this.isCollected = false;
 
         this.x = Math.random() * 3052; 
@@ -87,7 +75,7 @@ class Collectable extends GameObjects{
                 this.isRecyclableTrash = true;
                 
             } else {
-                this.d_T += 5; 
+                this.d_T += 15; 
                 this.shrink();
             }
             
@@ -104,8 +92,8 @@ class Collectable extends GameObjects{
         this.isCollected = false;
         this.isClickable = true; 
         this.isShrinking = false;
-        this.rotation_speed = Math.random() * 10 - 5;
-        if (this.rotation_speed < 1 && this.rotation_speed > -1) this.rotation_speed = 3;
+        this.rotation_speed = Math.random() * 20 - 10;
+        if (this.rotation_speed < 1 && this.rotation_speed > -1) this.rotation_speed = 9;
         this.x = Math.random() * 3052;
         this.y = Math.random() * 2028;
 

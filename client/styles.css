@@ -216,7 +216,7 @@ body{
     outline: none;
 }
 
-#laser-pink{
+#laser-pink , #health-colored , #health-monochrome , #shield-monochrome , #shield-colored , #space-ore {
     display: none;
 }
 

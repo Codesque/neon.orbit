@@ -179,7 +179,7 @@ socket.on('connect', () => {
 
 
 
-
+        let i = 0;
         
         for (let key in data.updatePack) {
 
@@ -200,15 +200,16 @@ socket.on('connect', () => {
             }
             else {
                 
-                others.push([
-                    assets[gameObject.imageID],
-                    gameObject.x, 
-                    gameObject.y, 
-                    gameObject.w,
-                    gameObject.h, 
-                    gameObject.angle, 
-                    gameObject.absoluteOffset
-                ])
+                others[i] = {
+                    asset: assets[gameObject.imageID],
+                    x: gameObject.x,
+                    y: gameObject.y,
+                    w: gameObject.w,
+                    h: gameObject.h,
+                    angle: gameObject.angle,
+                    ao: gameObject.absoluteOffset
+                };
+                i += 1;
             }
             
         }
@@ -216,8 +217,8 @@ socket.on('connect', () => {
     })
 
 
-    let selfHealthbar = []; 
-    let otherHealthbars = [];
+    let selfHealthbar = {}; 
+    let otherHealthbars = {};
     let otherShipObjects = {};
 
     socket.on('shipUpdate', (data) => {
@@ -228,26 +229,26 @@ socket.on('connect', () => {
             const shipObj = data.updatePack[key];
             if (socket.id == key) {
                 //console.log("x:", shipObj.x, "y:", shipObj.y);
-                selfHealthbar = [
-                    shipObj.health,
-                    shipObj.present_health,
-                    shipObj.shield,
-                    shipObj.present_shield,
-                    shipObj.x, 
-                    shipObj.y 
-                ]; 
+                selfHealthbar = {
+                    max_health:shipObj.health,
+                    present_health:shipObj.present_health,
+                    max_shield:shipObj.shield,
+                    present_shield:shipObj.present_shield,
+                    x:shipObj.x,
+                    y:shipObj.y
+                }; 
                 
             }
             else {
-                otherHealthbars.push([
-                    shipObj.health,
-                    shipObj.present_health,
-                    shipObj.shield,
-                    shipObj.present_shield,
-                    shipObj.x,  
-                    shipObj.y,
-                    shipObj.absoluteOffset
-                ])
+                otherHealthbars[shipObj.interaction.ID] = {
+                    max_health: shipObj.health,
+                    present_health: shipObj.present_health,
+                    max_shield: shipObj.shield,
+                    present_shield: shipObj.present_shield,
+                    x: shipObj.x,
+                    y: shipObj.y,
+                    ao: shipObj.absoluteOffset
+                };
 
                 otherShipObjects[shipObj.interaction.ID] = {
                     x: shipObj.x,
@@ -332,14 +333,16 @@ socket.on('connect', () => {
 
     const drawGameObjects = () => {
         if (self) {
-            //const [image, x, y, w, h, angle, absoluteOffset] = self;
             rotatedDraw(self.asset, self.x, self.y, self.w, self.h, (self.angle + 90) * Math.PI / 180);
         }
-        others.forEach((data) => {
-            const [image, x, y, w, h, angle, absoluteOffset] = data;
-            rotatedDraw(image, x + absoluteOffset.x - CalculateOffset.offsetX , 
-                y + absoluteOffset.y - CalculateOffset.offsetY , w, h, (angle + 90) * Math.PI / 180);
-        })
+
+        for (const key in others) {
+            const gameObj = others[key];
+            rotatedDraw(gameObj.asset, gameObj.x + gameObj.ao.x - CalculateOffset.offsetX,
+                gameObj.y + gameObj.ao.y - CalculateOffset.offsetY, gameObj.w, gameObj.h,
+                (gameObj.angle + 90) * Math.PI / 180);
+        }
+
     }
 
     const drawHealthBars = () => {
@@ -352,44 +355,46 @@ socket.on('connect', () => {
         let bar_widthMax = 96; 
         let bar_height = 6;
         if (selfHealthbar) { 
-            const [health, present_health , shield , present_shield, x, y] = selfHealthbar;
-            ctx.drawImage(healthbar_template, x - bar_widthMax/2, y - healthbar_y_offset  - bar_height/2  , bar_widthMax , bar_height);
-            ctx.drawImage(shieldbar_template, x - bar_widthMax/2, y - shieldbar_y_offset - bar_height/2 , bar_widthMax , bar_height);
+            //const [health, present_health , shield , present_shield, x, y] = selfHealthbar;
+            
+            ctx.drawImage(healthbar_template, selfHealthbar.x  - bar_widthMax/2, selfHealthbar.y - healthbar_y_offset  - bar_height/2  , bar_widthMax , bar_height);
+            ctx.drawImage(shieldbar_template, selfHealthbar.x - bar_widthMax/2, selfHealthbar.y - shieldbar_y_offset - bar_height/2 , bar_widthMax , bar_height);
 
-            let hp_width = 96 * (present_health / health);
-            let shield_width = 96 * (present_shield / shield); 
+            let hp_width = 96 * (selfHealthbar.present_health / selfHealthbar.max_health);
+            let shield_width = 96 *(selfHealthbar.present_shield / selfHealthbar.max_shield); 
 
-            ctx.drawImage(present_health_bar, x -bar_widthMax/2, y  -healthbar_y_offset  - bar_height/2 , hp_width , bar_height); 
-            ctx.drawImage(present_shield_bar, x - bar_widthMax/2, y - shieldbar_y_offset - bar_height/2, shield_width , bar_height);
+            ctx.drawImage(present_health_bar, selfHealthbar.x -bar_widthMax/2, selfHealthbar.y  -healthbar_y_offset  - bar_height/2 , hp_width , bar_height); 
+            ctx.drawImage(present_shield_bar, selfHealthbar.x - bar_widthMax/2, selfHealthbar.y - shieldbar_y_offset - bar_height/2, shield_width , bar_height);
              
 
 
 
         }
-        
-        otherHealthbars.forEach((data) => {
-            const [health, present_health, shield, present_shield, x, y, absoluteOffset] = data;
-            let hp_width = 96 * (present_health / health);
-            let shield_width = 96 * (present_shield / shield); 
+
+
+        for (const key in otherHealthbars) {
+
+            const shipObj = otherHealthbars[key];
+            let hp_width = 96 * (shipObj.present_health / shipObj.max_health);
+            let shield_width = 96 * (shipObj.present_shield / shipObj.max_shield); 
+
 
             if (shield_width > 1) {
-                ctx.drawImage(shieldbar_template, x + absoluteOffset.x - CalculateOffset.offsetX -bar_widthMax/2 , y +absoluteOffset.y -CalculateOffset.offsetY -shieldbar_y_offset -bar_height/2 , bar_widthMax , bar_height);
-                ctx.drawImage(present_shield_bar, x + absoluteOffset.x - CalculateOffset.offsetX - bar_widthMax / 2, y + absoluteOffset.y - CalculateOffset.offsetY - shieldbar_y_offset - bar_height / 2, shield_width, bar_height);
+                ctx.drawImage(shieldbar_template, shipObj.x + shipObj.ao.x - CalculateOffset.offsetX -bar_widthMax/2 , shipObj.y +shipObj.ao.y -CalculateOffset.offsetY -shieldbar_y_offset -bar_height/2 , bar_widthMax , bar_height);
+                ctx.drawImage(present_shield_bar, shipObj.x + shipObj.ao.x - CalculateOffset.offsetX - bar_widthMax / 2, shipObj.y + shipObj.ao.y - CalculateOffset.offsetY - shieldbar_y_offset - bar_height / 2, shield_width, bar_height);
                 
                 
             }
 
             if (hp_width > 1) {
-                ctx.drawImage(healthbar_template, x + absoluteOffset.x - CalculateOffset.offsetX - bar_widthMax / 2, y + absoluteOffset.y - CalculateOffset.offsetY - healthbar_y_offset - bar_height / 2, bar_widthMax, bar_height);
-                ctx.drawImage(present_health_bar, x + absoluteOffset.x - CalculateOffset.offsetX - bar_widthMax / 2, y + absoluteOffset.y - CalculateOffset.offsetY - healthbar_y_offset - bar_height / 2, hp_width, bar_height);
+                ctx.drawImage(healthbar_template, shipObj.x + shipObj.ao.x - CalculateOffset.offsetX - bar_widthMax / 2, shipObj.y + shipObj.ao.y - CalculateOffset.offsetY - healthbar_y_offset - bar_height / 2, bar_widthMax, bar_height);
+                ctx.drawImage(present_health_bar, shipObj.x + shipObj.ao.x - CalculateOffset.offsetX - bar_widthMax / 2, shipObj.y + shipObj.ao.y - CalculateOffset.offsetY - healthbar_y_offset - bar_height / 2, hp_width, bar_height);
                 
             }
 
-            else socket.emit('ShipDestroyed', { data: socket.id });
-
-
-
-        })
+            //else socket.emit('ShipDestroyed', { data: socket.id });
+            
+        }
 
     }
 
@@ -404,8 +409,7 @@ socket.on('connect', () => {
         ctx.stroke();
         ctx.globalAlpha = 0.4;
         ctx.fill();
-        ctx.restore() // start applying private drawings from here
-        ctx.stroke();  
+        ctx.restore() // start applying private drawings from here 
     }
 
 
@@ -417,14 +421,11 @@ socket.on('connect', () => {
         drawHealthBars();
         //for(let key in collectableObjects) debug(collectableObjects[key].x +collectableObjects[key].absoluteOffset.x - CalculateOffset.offsetX ,collectableObjects[key].y+ collectableObjects[key].absoluteOffset.y - CalculateOffset.offsetY , collectableObjects[key].coll_r )
         requestAnimationFrame(animate);
-        others = [];
-        selfHealthbar = []; 
-        otherHealthbars = [];
         
     }
 
 
-    setInterval(requestAnimationFrame(animate), 40);
+    setInterval(requestAnimationFrame(animate), 30);
     
     
 } )
