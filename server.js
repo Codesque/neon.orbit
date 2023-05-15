@@ -127,4 +127,4 @@ const responseCallback = () => {
     }
 } 
 
-setInterval(responseCallback, 30); 
+setInterval(responseCallback, 40); 

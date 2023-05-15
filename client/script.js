@@ -425,7 +425,7 @@ socket.on('connect', () => {
     }
 
 
-    setInterval(requestAnimationFrame(animate), 30);
+    setInterval(requestAnimationFrame(animate), 40);
     
     
 } )
